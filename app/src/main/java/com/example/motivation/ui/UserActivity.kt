@@ -20,12 +20,25 @@ class UserActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.buttonSave.setOnClickListener(this)
 
+        supportActionBar?.hide()
+
+        verifyUserName()
+
         setContentView(binding.root)
     }
 
     override fun onClick(view: View) {
         if (view.id == R.id.button_save) {
             handleSave()
+        }
+    }
+
+    private fun verifyUserName() {
+        val name = SecurityPreferences(this).getString(MotivationConstants.KEY.USER_NAME)
+
+        if (name != "") {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 
