@@ -8,10 +8,11 @@ import com.example.motivation.infra.MotivationConstants
 import com.example.motivation.R
 import com.example.motivation.infra.SecurityPreferences
 import com.example.motivation.databinding.ActivityMainBinding
+import com.example.motivation.data.Mock
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
-    private var category = 1
+    private var category = MotivationConstants.FILTER.ALL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         handleUserName()
         handleFilter(R.id.image_all)
+        handleNewPhrase()
 
         binding.buttonNewPhrase.setOnClickListener(this)
         binding.imageAll.setOnClickListener(this)
@@ -31,10 +33,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         if (view.id == R.id.button_new_phrase) {
-            var s = ""
+            handleNewPhrase()
         } else if (view.id in listOf(R.id.image_all, R.id.image_happy, R.id.image_sunny)) {
             handleFilter(view.id)
         }
+    }
+
+    private fun handleNewPhrase() {
+        val phrase = Mock().getPhrase(category)
+
+        binding.textPhrase.text = phrase
     }
 
     private fun handleFilter(id: Int) {
